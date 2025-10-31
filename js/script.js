@@ -15,26 +15,59 @@ const SCRIPT_URL =
 const weddingDate = new Date("2025-11-30T13:30:00").getTime();
 
 // ========== OPENING SCREEN ==========
-openButton.addEventListener("click", function () {
-  // Hide opening overlay
-  openingOverlay.classList.add("hidden");
+function openInvite() {
+  // Hide opening overlay immediately if present
+  if (openingOverlay && !openingOverlay.classList.contains("hidden")) {
+    openingOverlay.classList.add("hidden");
+  }
 
-  // Start music
-  bgMusic
-    .play()
-    .then(() => {
-      musicPlaying = true;
-      audioToggle.classList.add("playing");
-      audioToggle.classList.remove("paused");
-    })
-    .catch((err) => {
-      console.log("Autoplay prevented:", err);
-    });
+  // Try starting music (may be blocked by autoplay policies)
+  if (bgMusic) {
+    const tryPlay = () => bgMusic.play();
+    tryPlay()
+      .then(() => {
+        // If autoplay started muted (common), wait for a gesture to unmute
+        if (bgMusic.muted || bgMusic.volume === 0) {
+          attachAudioUnlock();
+          musicPlaying = false;
+          audioToggle?.classList.remove("playing");
+          audioToggle?.classList.add("paused");
+        } else {
+          musicPlaying = true;
+          audioToggle?.classList.add("playing");
+          audioToggle?.classList.remove("paused");
+        }
+      })
+      .catch((err) => {
+        // Continue muted and unlock on first gesture
+        console.log("Autoplay prevented:", err);
+        try {
+          bgMusic.muted = true;
+          bgMusic.volume = 0;
+          return tryPlay().finally(() => {
+            attachAudioUnlock();
+            musicPlaying = false;
+            audioToggle?.classList.remove("playing");
+            audioToggle?.classList.add("paused");
+          });
+        } catch (e) {}
+      });
+  }
 
-  // Trigger scroll animations
+  // Kick off any elements already in view
   setTimeout(() => {
     triggerAllAnimations();
   }, 300);
+}
+
+// Keep the button as an optional fallback (desktop browsers with strict policies)
+if (openButton) {
+  openButton.addEventListener("click", openInvite);
+}
+
+// Auto-open on load (no button press)
+document.addEventListener("DOMContentLoaded", () => {
+  openInvite();
 });
 
 // ========== MUSIC CONTROL ==========
@@ -45,6 +78,8 @@ audioToggle.addEventListener("click", function () {
     audioToggle.classList.remove("playing");
     audioToggle.classList.add("paused");
   } else {
+    bgMusic.muted = false;
+    if (bgMusic.volume < 0.7) bgMusic.volume = 0.7;
     bgMusic.play();
     musicPlaying = true;
     audioToggle.classList.add("playing");
@@ -319,6 +354,41 @@ function debounce(func, wait) {
   };
 }
 
+// ===== AUDIO UNLOCK HELPERS =====
+let audioUnlockAttached = false;
+function attachAudioUnlock() {
+  if (audioUnlockAttached || !bgMusic) return;
+  audioUnlockAttached = true;
+  const types = ["pointerdown", "touchstart", "click", "keydown", "wheel"];
+  const handler = () => {
+    try {
+      bgMusic.muted = false;
+      // Smooth fade-in to pleasant level
+      const targetVol = Math.min(1, Math.max(0.5, bgMusic.volume || 0.7));
+      fadeVolumeTo(bgMusic, targetVol, 800);
+      bgMusic.play();
+    } catch (e) {}
+    musicPlaying = true;
+    audioToggle?.classList.add("playing");
+    audioToggle?.classList.remove("paused");
+    types.forEach((t) => window.removeEventListener(t, handler, true));
+  };
+  types.forEach((t) =>
+    window.addEventListener(t, handler, { capture: true, once: true })
+  );
+}
+
+function fadeVolumeTo(audio, target, durationMs) {
+  const start = audio.volume || 0;
+  const startTime = performance.now();
+  function step(ts) {
+    const p = Math.min(1, (ts - startTime) / durationMs);
+    audio.volume = start + (target - start) * p;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 // Debounced scroll handler
 const handleScroll = debounce(() => {
   // Add any scroll-based effects here
@@ -358,8 +428,29 @@ function scaleCanvasToViewport() {
   root.style.height = Math.round(originalHeight * scale) + "px";
   root.style.width = scaledWidth + "px"; // match scaled canvas width exactly
   root.style.margin = "0 auto"; // keep centered
+
+  // Keep the wishes container aligned with the scaled canvas width
+  const wishes = document.getElementById("wishes-container");
+  if (wishes) {
+    wishes.style.width = scaledWidth + "px";
+  }
 }
 
+// Ensure the wishes container is not a child of a transformed element,
+// otherwise position: fixed behaves like absolute.
+function ensureWishesContainerMounted() {
+  const wishes = document.getElementById("wishes-container");
+  if (!wishes) return;
+  const root = document.getElementById("root-page-container");
+  const canvas = root && root.firstElementChild;
+  if (canvas && canvas.contains(wishes)) {
+    // Move to <body> so it's fixed relative to the viewport
+    document.body.appendChild(wishes);
+  }
+  // Make sure it's fixed and above content
+  wishes.style.position = wishes.style.position || "fixed";
+  wishes.style.zIndex = wishes.style.zIndex || "9999";
+}
 function adjustForMobile() {
   scaleCanvasToViewport();
 }
@@ -642,6 +733,7 @@ function escapeHtml(text) {
 document.addEventListener("DOMContentLoaded", () => {
   fetchWishes();
   // Ensure initial scale after DOM is ready
+  ensureWishesContainerMounted();
   adjustForMobile();
 });
 

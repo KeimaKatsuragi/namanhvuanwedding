@@ -299,7 +299,7 @@ body {
 .envelope-container.open .letter img {
   opacity: 1;
   /* Delay 1.5s (đợi nắp mở + letter bắt đầu trượt) */
-  transition: opacity 0.1s ease 1.5s;
+  /* transition: opacity 0.1s ease 1.5s; */
 }
 
 /* ĐÓNG: Ảnh xuống trước */
@@ -314,7 +314,6 @@ body {
 /* Hide photo ngay khi bắt đầu đóng */
 .envelope-container.close .letter img {
   opacity: 0;
-  transition: opacity 1.2s ease;
 }
 
 /* Letter Content - Bride & Groom Photos */
@@ -649,6 +648,14 @@ body {
   background-clip: border-box;
   min-width: 20px;
   min-height: 20px;
+}
+
+/* Photo zoom/crop helpers (keep box size, zoom background in and crop) */
+/* Zoom the large vertical couple photo without changing its container size */
+[data-node-id="-i1VCh3Ex4"] .photo-bg-wrap {
+  /* Increase background size to 140% so it appears larger and crops at edges */
+  background-size: 140% auto !important;
+  background-position: center center !important; /* keep focus centered */
 }
 
 /* Material component must have dimensions for photo-bg-wrap to show */

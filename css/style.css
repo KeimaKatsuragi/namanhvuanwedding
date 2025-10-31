@@ -177,6 +177,7 @@ body {
   width: 430.1px;
   height: 286.734px;
   margin-left: auto;
+
   margin-right: auto;
   top: 0;
   pointer-events: none;
@@ -230,6 +231,83 @@ body {
   }
   50% {
     transform: translateY(-20px);
+  }
+}
+
+/* ===================== Event Info Panel (Sample-like Card) ===================== */
+.event-info-panel {
+  position: absolute;
+  left: 20px; /* default; fine-tuned inline in HTML */
+  width: 460px;
+  background: #ffffff90;
+  border: 1.5px solid #8b2f30;
+  border-radius: 14px;
+  box-shadow: 0 1px 0 rgba(131, 67, 67, 0.1), 0 6px 18px rgba(0, 0, 0, 0.06);
+  padding: 18px 20px 20px;
+  text-align: center;
+  align-content: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* horizontally center block children like map-card */
+}
+
+.event-info-title {
+  color: #111;
+  font-family: "Belinda Avenue";
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin: 6px 0 2px;
+  letter-spacing: 0.3px;
+  -webkit-text-stroke: 0.1px #000000;
+  text-shadow: 0 0.1px 0 #000, 0.1px 0 0 #000, 0 -0.1px 0 #000, -0.1px 0 0 #000,
+    0.1px 0.1px 0 #000, -0.1px 0.1px 0 #000, 0.1px -0.1px 0 #000,
+    -0.1px -0.1px 0 #000;
+}
+
+.event-info-time {
+  color: #000000;
+  font-family: "Belinda Avenue";
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+}
+
+.event-info-date {
+  color: #000;
+  font-family: "Belinda Avenue Local", "Belinda Avenue", "Belinda Avenue";
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: 6px; /* dot-separated spacing look */
+  margin: 4px 0 8px;
+  -webkit-text-stroke: 0.1px #000000;
+  text-shadow: 0 0.1px 0 #000, 0.1px 0 0 #000, 0 -0.1px 0 #000, -0.1px 0 0 #000,
+    0.1px 0.1px 0 #000, -0.1px 0.1px 0 #000, 0.1px -0.1px 0 #000,
+    -0.1px -0.1px 0 #000;
+}
+
+.event-info-lunar {
+  color: #000;
+  opacity: 0.75;
+  font-style: italic;
+  font-family: "Belinda Avenue";
+  font-size: 14px;
+  margin: 2px 0 10px;
+}
+
+.event-info-location {
+  color: #111;
+  font-family: "Belinda Avenue";
+  font-size: 16px;
+  margin: 8px 0 2px;
+
+  /* Center the embedded map card inside event panels */
+  .event-info-panel .map-card {
+    margin: 12px auto 0; /* horizontally center with top spacing */
+    display: block; /* ensure margin auto works */
+    max-width: 100%;
   }
 }
 
@@ -1321,7 +1399,7 @@ a:hover {
 
 /* Wishes Display Area */
 .wishes-display {
-  height: 200px;
+  height: 100px;
   max-height: 200px;
   overflow: hidden; /* auto-run, hide scrollbars */
   padding: 12px 16px;

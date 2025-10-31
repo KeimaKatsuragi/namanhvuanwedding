@@ -789,7 +789,7 @@ function setupWishesMarquee() {
   // Compute loop height as half of total after duplication
   // Use scrollHeight for accurate value including gaps
   const totalHeight = list.scrollHeight; // includes gaps and all items
-  wishesMarqueeLoopHeight = Math.max(1, Math.round(totalHeight / 2));
+  wishesMarqueeLoopHeight = Math.max(1, Math.round(totalHeight / 3));
 
   // Set initial transform state so content appears to scroll up from the bottom
   // Start the offset near the end of the original content so items enter from below

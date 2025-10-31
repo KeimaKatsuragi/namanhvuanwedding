@@ -330,14 +330,38 @@ const scrollRootForEvents =
 scrollRootForEvents.addEventListener("scroll", handleScroll);
 
 // ========== RESPONSIVE ADJUSTMENTS ==========
+// Scale the fixed 500px canvas to fit the viewport width on small screens
+function scaleCanvasToViewport() {
+  const root = document.getElementById("root-page-container");
+  if (!root) return;
+
+  const canvas = root.firstElementChild; // the inner 500 x N element
+  if (!canvas) return;
+
+  const TARGET_WIDTH = 500;
+  const availableWidth = Math.min(
+    window.innerWidth || document.documentElement.clientWidth || TARGET_WIDTH,
+    document.documentElement.clientWidth || TARGET_WIDTH
+  );
+  const scale = Math.min(1, availableWidth / TARGET_WIDTH);
+
+  // Apply visual scale
+  canvas.style.transformOrigin = "top left";
+  canvas.style.position = canvas.style.position || "relative";
+  // When scaledWidth === availableWidth, no horizontal offset is needed; keep flush-left
+  canvas.style.left = "0px";
+  canvas.style.transform = `scale(${scale})`;
+
+  // Adjust the root container's layout size so scrolling matches the scaled height
+  const originalHeight = canvas.offsetHeight; // unchanged by transform
+  const scaledWidth = Math.round(TARGET_WIDTH * scale);
+  root.style.height = Math.round(originalHeight * scale) + "px";
+  root.style.width = scaledWidth + "px"; // match scaled canvas width exactly
+  root.style.margin = "0 auto"; // keep centered
+}
+
 function adjustForMobile() {
-  if (window.innerWidth <= 768) {
-    // Mobile-specific adjustments
-    const rootContainer = document.getElementById("root-page-container");
-    if (rootContainer) {
-      rootContainer.style.width = "100%";
-    }
-  }
+  scaleCanvasToViewport();
 }
 
 // Xử lý RSVP Form
@@ -617,9 +641,11 @@ function escapeHtml(text) {
 // Initialize wishes on page load (only once)
 document.addEventListener("DOMContentLoaded", () => {
   fetchWishes();
+  // Ensure initial scale after DOM is ready
+  adjustForMobile();
 });
 
-window.addEventListener("resize", debounce(adjustForMobile, 250));
+window.addEventListener("resize", debounce(adjustForMobile, 150));
 adjustForMobile();
 
 // ========== WISHES AUTO-SCROLL / MARQUEE ==========

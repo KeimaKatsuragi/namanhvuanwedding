@@ -966,6 +966,13 @@ div {
   color: #4a4a4a;
 }
 
+/* Make plain <img> elements naturally responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Calendar template-three - EXACT from original */
 .calendar.componentBOX {
   width: 100%;
@@ -1159,6 +1166,34 @@ a:hover {
   height: 100px;
   border-radius: 10px;
   margin: 10px auto;
+}
+
+/* ===== MOBILE RESPONSIVE TUNING ===== */
+@media (max-width: 500px) {
+  /* Note: The whole 500px canvas is scaled via JS. Avoid viewport-based overrides
+     that would double-scale inner elements like the map. Keep defaults and only
+     tighten spacing within cards. */
+
+  .gift-qr-card {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .qr-avatar {
+    width: 72px;
+    height: 72px;
+    padding: 4px;
+  }
+
+  .qr-info {
+    text-align: left;
+  }
+
+  .qr-code-img {
+    width: 84px;
+    height: 84px;
+    margin: 0;
+  }
 }
 
 /* RSVP Form */

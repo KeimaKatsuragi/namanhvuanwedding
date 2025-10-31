@@ -1,0 +1,410 @@
+/* ===== ENVELOPE OPENING ANIMATION - Exact Clone from Cinelove ===== */
+
+:root {
+    --envelope-color: #e4d4c8;
+    --envelope-dark: #c9b8ad;
+    --envelope-light: #f5ebe3;
+    --seal-color: #8b2f30;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Envelope Wrapper */
+.envelope-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.envelope-wrapper.opened {
+    opacity: 0;
+    transform: scale(1.2);
+    pointer-events: none;
+}
+
+/* Envelope Container */
+.envelope-container {
+    position: relative;
+    width: 430px;
+    height: 287px;
+    transform: translateY(0);
+    transition: transform 0.6s ease;
+}
+
+.envelope-container.opening {
+    animation: envelopeFloat 2s ease-out forwards;
+}
+
+@keyframes envelopeFloat {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        transform: translateY(-30px) scale(1.05);
+    }
+}
+
+/* Envelope Shadow */
+.envelope-shadow {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 20px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, transparent 70%);
+    filter: blur(8px);
+    z-index: 1;
+}
+
+/* Front Flap (Mép thiệp phía trước) */
+.front-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--envelope-color);
+    clip-path: polygon(0 0, 100% 0, 50% 60%);
+    transform-origin: top center;
+    transition: transform 1.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    z-index: 5;
+    box-shadow: inset 0 -10px 30px rgba(0,0,0,0.1);
+}
+
+.envelope-container.opening .front-flap {
+    transform: rotateX(-180deg);
+}
+
+.front-flap::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0.1), transparent);
+}
+
+.front-flap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to left, rgba(0,0,0,0.05), transparent);
+}
+
+/* Envelope Pocket (Túi phong bì) */
+.envelope-pocket {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: var(--envelope-light);
+    clip-path: polygon(0 40%, 50% 0, 100% 40%, 100% 100%, 0 100%);
+    z-index: 2;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.envelope-pocket::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.05), transparent);
+}
+
+.envelope-pocket::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to left, rgba(255,255,255,0.1), transparent);
+}
+
+/* Wax Seal (Dấu sáp) */
+.wax-seal {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-image: url('https://cdn.cinelove.me/assets/plugins/wax-seal.webp');
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    z-index: 6;
+    transition: opacity 0.5s ease, transform 0.8s ease;
+    box-shadow: 0 4px 10px rgba(139, 47, 48, 0.4);
+}
+
+.envelope-container.opening .wax-seal {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5) rotate(90deg);
+}
+
+/* Letter Card (Thiệp bên trong) */
+.letter-card {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 90%;
+    height: 70%;
+    background: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 3;
+    overflow: hidden;
+    transition: transform 1.3s cubic-bezier(0.4, 0.0, 0.2, 1) 0.3s;
+}
+
+.envelope-container.opening .letter-card {
+    transform: translate(-50%, -120%);
+}
+
+.letter-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.letter-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+}
+
+.letter-line {
+    height: 3px;
+    background: rgba(139, 47, 48, 0.2);
+    margin: 8px 0;
+    border-radius: 2px;
+}
+
+.letter-line:nth-child(1) { width: 80%; }
+.letter-line:nth-child(2) { width: 90%; }
+.letter-line:nth-child(3) { width: 70%; }
+.letter-line:nth-child(4) { width: 85%; }
+
+/* Hearts Animation */
+.hearts-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 7;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.5s;
+}
+
+.envelope-container.opening .hearts-container {
+    opacity: 1;
+}
+
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--seal-color);
+    transform: rotate(45deg);
+    animation: floatHeart 3s ease-in-out infinite;
+}
+
+.heart::before,
+.heart::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--seal-color);
+    border-radius: 50%;
+}
+
+.heart::before {
+    top: -10px;
+    left: 0;
+}
+
+.heart::after {
+    top: 0;
+    left: 10px;
+}
+
+.heart-1 {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.heart-2 {
+    top: 40%;
+    left: 80%;
+    animation-delay: 1s;
+}
+
+.heart-3 {
+    top: 60%;
+    left: 30%;
+    animation-delay: 2s;
+}
+
+@keyframes floatHeart {
+    0% {
+        transform: rotate(45deg) translateY(0) scale(0.5);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(45deg) translateY(-200px) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Open Envelope Button */
+.open-envelope-btn {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 50px;
+    font-size: 18px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    animation: pulse 2s infinite;
+}
+
+.open-envelope-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateX(-50%) scale(1.05);
+}
+
+.open-envelope-btn:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+    }
+}
+
+/* Music Icon */
+.music-icon-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10000;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.music-icon-wrapper:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.music-icon {
+    width: 30px;
+    height: 30px;
+    animation: rotate 3s linear infinite;
+}
+
+.music-icon-wrapper.paused .music-icon {
+    animation-play-state: paused;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .envelope-container {
+        width: 320px;
+        height: 213px;
+        transform: scale(0.9);
+    }
+    
+    .open-envelope-btn {
+        padding: 12px 40px;
+        font-size: 16px;
+        bottom: 60px;
+    }
+    
+    .wax-seal {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .envelope-container {
+        width: 280px;
+        height: 187px;
+        transform: scale(0.85);
+    }
+    
+    .open-envelope-btn {
+        padding: 10px 30px;
+        font-size: 14px;
+        bottom: 50px;
+    }
+}

@@ -1,0 +1,1611 @@
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: "Playfair Display", "Cormorant Garamond", "Times New Roman",
+    serif;
+  background-color: #f0f2f5;
+  overflow-x: hidden;
+  /* Prevent outer page from scrolling; only inner .pc-content scroller should scroll */
+  overflow-y: hidden;
+  color: #2c2c2c;
+}
+
+/* Font Imports */
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
+
+/* Belinda Avenue font - LOCAL */
+@font-face {
+  font-family: "Belinda Avenue";
+  src: url("../fonts/BelindaAvenue.otf") format("opentype");
+}
+
+/* Belinda Avenue font - LOCAL alias to avoid collisions with system/remote variants */
+@font-face {
+  font-family: "Belinda Avenue Local";
+  src: url("../fonts/BelindaAvenue.otf") format("opentype");
+}
+
+/* Carlytte font - handwriting style */
+@font-face {
+  font-family: "Carlytte";
+  src: url("../fonts/Carlytte.ttf") format("truetype");
+}
+
+/* HoaTay1 font - Vietnamese calligraphy for names */
+@font-face {
+  font-family: "HoaTay1";
+  src: url("../fonts/HoaTay1.ttf") format("truetype");
+}
+
+/* BucThu font - Vietnamese calligraphy for names */
+@font-face {
+  font-family: "BucThu";
+  src: url("../fonts/BucThu.ttf") format("truetype");
+}
+
+/* The Artisan font - elegant serif for locations */
+@font-face {
+  font-family: "The Artisan";
+  src: url("../fonts/TheArtisan.ttf") format("truetype");
+}
+
+/* Aquarelle font - elegant serif for locations */
+@font-face {
+  font-family: "Aquarelle";
+  src: url("../fonts/Aquarelle.ttf") format("truetype");
+}
+
+/* Container */
+.pc-container {
+  background-color: #f0f2f5;
+  height: 100vh;
+  width: 100vw;
+  /* Avoid creating an extra outer vertical scrollbar */
+  padding-top: 0;
+}
+
+.pc-content {
+  width: 500px;
+  max-width: 100%;
+  height: 100vh;
+  margin: auto;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  /* Delegate scrolling to inner .styles_customScroll__kBx4W to avoid nested scrollbars */
+  overflow: hidden;
+}
+
+/* Root Page Container */
+#root-page-container {
+  background-color: #f9f1ef;
+  background-image: none;
+  background-size: cover;
+  width: 100%;
+  min-height: 100%;
+  position: relative;
+}
+
+/* Audio Control */
+#audio-control-wrapper {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  cursor: pointer;
+}
+
+.audio-toggle {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  background: rgba(139, 47, 48, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.audio-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.music-icon {
+  width: 30px;
+  height: 30px;
+  animation: rotate 3s linear infinite;
+}
+
+.audio-toggle.playing .music-icon {
+  animation: rotate 3s linear infinite;
+}
+
+.audio-toggle.paused .music-icon {
+  animation: none;
+}
+
+.icon-cancel {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.audio-toggle.paused .icon-cancel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-line {
+  width: 2px;
+  height: 35px;
+  background: #fff;
+  transform: rotate(45deg);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== ENVELOPE COMPONENT ===== */
+.animated-envelope-component {
+  position: relative;
+  cursor: move;
+}
+
+/* Envelope Shadow */
+.envelope-shadow {
+  position: absolute;
+  width: 430.1px;
+  height: 286.734px;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.envelope-shadow::after {
+  content: "";
+  position: absolute;
+  width: 490.314px;
+  height: 25px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.2);
+  top: 336.734px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: shadowScale 3s ease-in-out infinite;
+  filter: blur(4px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes shadowScale {
+  0%,
+  100% {
+    transform: translateX(-50%) scaleX(1);
+  }
+  50% {
+    transform: translateX(-50%) scaleX(0.85);
+  }
+}
+
+/* Envelope Container */
+.envelope-container {
+  position: absolute;
+  width: 430.1px;
+  height: 286.734px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  background-color: transparent;
+  animation: float 3s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Back Pocket (túi sau - z-index: 1) */
+.back.pocket {
+  position: absolute;
+  width: 430.1px;
+  height: 286.734px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  background-color: #812927;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Letter (lá thư - z-index: 2, nằm trong túi sau) */
+.letter {
+  position: absolute;
+  background-color: #fff;
+  width: 90%;
+  left: 5%;
+  height: 90%;
+  top: 5%;
+  border-radius: 6px;
+  box-shadow: 0 2px 26px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.3s ease;
+  overflow: hidden;
+  transform: translateY(0px);
+  z-index: 2;
+  will-change: transform;
+}
+
+.letter::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-image: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 25%,
+    rgba(255, 227, 239, 0.2) 75%,
+    rgba(215, 227, 239, 0.3) 100%
+  );
+  pointer-events: none;
+}
+
+/* Letter content (photo) initially hidden */
+.letter img {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+/* MỞ: Nắp mở xong (1.2s) → ảnh mới trượt lên */
+.envelope-container.open .letter {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  /* Keep on the same Z-plane so pocket (z-index:4) always stays above during close */
+  transform: translateY(-136.19865px);
+  /* Delay 1.2s để đợi nắp mở xong */
+  transition: transform 1s 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.3s 1.2s;
+  z-index: 2;
+}
+
+/* Show photo sau khi letter bắt đầu trượt lên */
+.envelope-container.open .letter img {
+  opacity: 1;
+  /* Delay 1.5s (đợi nắp mở + letter bắt đầu trượt) */
+  transition: opacity 0.1s ease 1.5s;
+}
+
+/* ĐÓNG: Ảnh xuống trước */
+.envelope-container.close .letter {
+  transform: translateY(0px);
+  /* Trượt xuống ngay, không delay */
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.3s;
+  z-index: 2;
+}
+
+/* Hide photo ngay khi bắt đầu đóng */
+.envelope-container.close .letter img {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+/* Letter Content - Bride & Groom Photos */
+.letter img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* Letter Lines (placeholder text) - NOT USED when photo is present */
+.words {
+  position: absolute;
+  left: 10%;
+  width: 80%;
+  height: 14%;
+  background-color: #eeeff0;
+}
+
+.words.line1 {
+  top: 15%;
+  width: 20%;
+  height: 7%;
+}
+
+.words.line2 {
+  top: 30%;
+}
+
+.words.line3 {
+  top: 50%;
+}
+
+.words.line4 {
+  top: 70%;
+}
+
+/* Hearts Container (z-index: 3) */
+.hearts {
+  position: absolute;
+  top: 157.7037px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+}
+
+/* Front Pocket (túi trước - z-index: 4, che ảnh) */
+.front.pocket {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 215.05px solid #a33f3d;
+  border-right: 215.05px solid #a33f3d;
+  border-bottom: 143.367px solid #a84644;
+  border-top: 143.367px solid transparent;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  transform: translateZ(2px);
+  z-index: 4;
+}
+
+/* Front Flap (nắp trước - z-index: 5, nằm trên cùng) */
+.front.flap {
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: 5;
+  border-left: 215.05px solid transparent;
+  border-right: 215.05px solid transparent;
+  border-bottom: 131.89764px solid transparent;
+  border-top: 154.83636px solid #812927;
+  transform-origin: top;
+  /* Hide the backface so when rotateX(180deg) the flipped side doesn't overpaint higher z-index items (e.g., wax-seal) */
+  /* backface-visibility: hidden; */
+  will-change: transform;
+}
+
+/* MỞ: Nắp xoay + z-index đổi đồng thời */
+.envelope-container.open .front.flap {
+  transform: rotateX(180deg);
+  /* Keep z-index static to avoid end-of-animation jumps (Safari) */
+  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    z-index 0s 1.2s;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ĐÓNG: Đợi ảnh xuống xong (0.6s) rồi mới nắp đóng */
+.envelope-container.close .front.flap {
+  transform: rotateX(0deg);
+  /* Delay 0.6s để đợi ảnh xuống xong, rồi mới đóng nắp trong 0.8s */
+  /* z-index đổi ngay sau khi ảnh xuống xong (0.6s) */
+  transition: transform 0.8s 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    z-index 0s 0.6s;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Wax Seal (con dấu - z-index: 10, trên nắp) */
+.wax-seal {
+  position: absolute;
+  top: 114.6936px;
+  left: 50%;
+  /* Nudge on Z to sit above flap even during 3D rotation */
+  transform: translateX(-50%) translateZ(3px);
+  width: 55.913px;
+  height: 55.913px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 999;
+}
+
+/* Individual Heart */
+.heart {
+  position: absolute;
+  bottom: 0;
+  right: 10%;
+}
+
+.heart::before,
+.heart::after {
+  position: absolute;
+  content: "";
+  left: 46.0207px;
+  top: 0;
+  width: 46.0207px;
+  height: 73.5471px;
+  background-color: #d00000;
+  border-radius: 46.0207px 46.0207px 0 0;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+}
+
+.heart::after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+/* Heart - Closed State */
+.envelope-container.close .heart {
+  opacity: 0;
+  animation: none;
+  transform: scale(0);
+}
+
+/* Heart a1 */
+.heart.a1 {
+  left: 20%;
+  transform: scale(0.6);
+  opacity: 1;
+}
+
+.envelope-container.open .heart.a1 {
+  animation: heartFloat 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1,
+    sideSway 2s ease-in-out 4 alternate,
+    heartScale 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1;
+  animation-fill-mode: forwards;
+  animation-delay: 1.2s;
+  --heart-scale: 0.6;
+}
+
+/* Heart a2 */
+.heart.a2 {
+  left: 55%;
+  transform: scale(1);
+  opacity: 1;
+}
+
+.envelope-container.open .heart.a2 {
+  animation: heartFloat 5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1,
+    sideSway 4s ease-in-out 2 alternate,
+    heartScale 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1;
+  animation-fill-mode: forwards;
+  animation-delay: 1.4s;
+  --heart-scale: 1;
+}
+
+/* Heart a3 */
+.heart.a3 {
+  left: 10%;
+  transform: scale(0.8);
+  opacity: 1;
+}
+
+.envelope-container.open .heart.a3 {
+  animation: heartFloat 7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1,
+    sideSway 2s ease-in-out 6 alternate,
+    heartScale 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1;
+  animation-fill-mode: forwards;
+  animation-delay: 1.6s;
+  --heart-scale: 0.8;
+}
+
+/* Heart Animations */
+@keyframes heartFloat {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    top: -600px;
+    opacity: 0;
+  }
+}
+
+@keyframes sideSway {
+  0% {
+    margin-left: 0px;
+  }
+  50% {
+    margin-left: 25px;
+  }
+  100% {
+    margin-left: 50px;
+  }
+}
+
+@keyframes heartScale {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(var(--heart-scale, 1));
+    opacity: 1;
+  }
+}
+
+/* ===== SLIDE TRANSITIONS ===== */
+[data-transition-key*="slide-up"] {
+  transition: all 1.3s ease-out;
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+[data-transition-key*="slide-up"].visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+[data-transition-key*="slide-down"] {
+  transition: all 1.3s ease-out;
+  transform: translateY(-50px);
+  opacity: 0;
+}
+
+[data-transition-key*="slide-down"].visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+[data-transition-key*="slide-left"] {
+  transition: all 1.3s ease-out;
+  transform: translateX(50px);
+  opacity: 0;
+}
+
+[data-transition-key*="slide-left"].visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+[data-transition-key*="slide-right"] {
+  transition: all 1.3s ease-out;
+  transform: translateX(-50px);
+  opacity: 0;
+}
+
+[data-transition-key*="slide-right"].visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* Countdown Component */
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing, 20px);
+}
+
+.countdown > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.countdown > div > div:first-child {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.countdown > div > div:last-child {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* Text Box Component */
+.text-box-component {
+  pointer-events: none;
+}
+
+.text-box-component [contenteditable] {
+  pointer-events: none;
+}
+
+/* ========== PHOTO COMPONENT ========== */
+.photo-bg-wrap {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-clip: border-box;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+/* Material component must have dimensions for photo-bg-wrap to show */
+.material-component > .photo-bg-wrap {
+  display: block;
+  position: relative;
+}
+
+/* ========== MATERIAL COMPONENT (SVG DECORATIONS) ========== */
+.material-component {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Timeline elements use inline images/markup from HTML to mirror the original.
+   Intentionally no CSS overrides here to avoid conflicts with node-specific content. */
+
+/* Material Component (Decorations) */
+.material-component {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+}
+
+/* Opening Screen Overlay */
+.opening-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(249, 241, 239, 0.95);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.opening-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.open-button {
+  padding: 15px 40px;
+  background: #812927;
+  color: #fff;
+  font-size: 18px;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(129, 41, 39, 0.3);
+  transition: all 0.3s ease;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.open-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(129, 41, 39, 0.4);
+  background: #a33f3d;
+}
+
+.open-button:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pc-container {
+    padding-top: 0;
+  }
+
+  .pc-content {
+    width: 100%;
+    height: 100vh;
+    border: none;
+    border-radius: 0;
+  }
+
+  #root-page-container {
+    width: 100%;
+  }
+}
+
+/* Custom Scrollbar */
+.pc-content::-webkit-scrollbar {
+  width: 1px;
+}
+
+.pc-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pc-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.pc-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.pc-content {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #888 transparent; /* Firefox */
+}
+.styles_customScroll__kBx4W::-webkit-scrollbar {
+  /* Ultra-thin vertical scrollbar */
+  width: 1px;
+}
+
+.styles_customScroll__kBx4W::-webkit-scrollbar-track {
+  /* Make track transparent so right-edge sections (e.g., bgRightCol) can appear flush */
+  background: transparent;
+}
+
+.styles_customScroll__kBx4W::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.styles_customScroll__kBx4W::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+/* Ensure no horizontal scrollbar appears inside content scroller */
+.styles_customScroll__kBx4W {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Make scrollbar thin on Firefox as well */
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+
+/* ========== BEAUTIFUL TYPOGRAPHY ========== */
+.couple-name {
+  font-family: "Great Vibes", "Dancing Script", "Parisienne", cursive !important;
+  font-size: 3.5rem !important;
+  font-weight: normal !important;
+  letter-spacing: 2px !important;
+  color: #8b4513 !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.elegant-title {
+  font-family: "Playfair Display", serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 3px !important;
+  color: #6b4423 !important;
+}
+
+.script-text {
+  font-family: "Great Vibes", cursive !important;
+  font-size: 2.5rem !important;
+  color: #a0826d !important;
+}
+
+.body-text {
+  font-family: "Cormorant Garamond", serif !important;
+  font-size: 1.1rem !important;
+  line-height: 1.8 !important;
+  color: #4a4a4a !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* ========== DECORATIVE ELEMENTS ========== */
+.decorative-frame {
+  position: absolute;
+  border: 2px solid rgba(160, 130, 109, 0.3);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.decorative-corner {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 3px solid #d4af37;
+  pointer-events: none;
+}
+
+.decorative-corner::before,
+.decorative-corner::after {
+  content: "";
+  position: absolute;
+  background: #d4af37;
+}
+
+.decorative-corner-tl {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+  border-top-left-radius: 4px;
+}
+
+.decorative-corner-tr {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+  border-top-right-radius: 4px;
+}
+
+.decorative-corner-bl {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+  border-bottom-left-radius: 4px;
+}
+
+.decorative-corner-br {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+  border-bottom-right-radius: 4px;
+}
+
+.ornament-line {
+  position: relative;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.ornament-line::before,
+.ornament-line::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #d4af37, transparent);
+}
+
+.ornament-line::before {
+  left: 0;
+}
+
+.ornament-line::after {
+  right: 0;
+}
+
+.ornament-line span {
+  display: inline-block;
+  padding: 0 20px;
+  background: #f9f1ef;
+  color: #d4af37;
+  font-size: 1.5rem;
+}
+
+/* Material Component - Decorative SVG Backgrounds
+   Note: Do not force global opacity here; let each node control its own opacity inline
+   to match the original template visuals precisely. Also avoid forcing absolute positioning
+   to prevent layout side-effects inside positioned wrappers. */
+/* Intentionally removed global opacity/positioning for .material-component */
+
+.material-component-frame {
+  background-image: url("https://cdn.cinelove.me/assets/decorative-frame-1.svg");
+}
+
+.material-component-corner {
+  background-image: url("https://cdn.cinelove.me/assets/decorative-corner-1.svg");
+}
+
+.material-component-floral {
+  background-image: url("https://cdn.cinelove.me/assets/decorative-floral-1.svg");
+}
+
+/* Photo Masking - Beautiful shaped frames */
+.photo-masked {
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+.photo-mask-circle {
+  -webkit-mask-image: radial-gradient(circle, black 45%, transparent 50%);
+  mask-image: radial-gradient(circle, black 45%, transparent 50%);
+}
+
+.photo-mask-heart {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,90 C20,70 5,50 5,35 A15,15 0 0,1 35,35 A15,15 0 0,1 50,50 A15,15 0 0,1 65,35 A15,15 0 0,1 95,35 C95,50 80,70 50,90z"/></svg>');
+  mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50,90 C20,70 5,50 5,35 A15,15 0 0,1 35,35 A15,15 0 0,1 50,50 A15,15 0 0,1 65,35 A15,15 0 0,1 95,35 C95,50 80,70 50,90z"/></svg>');
+}
+
+/* Improved text readability */
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 600;
+  color: #3a2419;
+  letter-spacing: 1.5px;
+}
+
+p,
+span,
+div {
+  font-family: "Cormorant Garamond", serif;
+  color: #4a4a4a;
+}
+
+/* Calendar template-three - EXACT from original */
+.calendar.componentBOX {
+  width: 100%;
+  height: 100%;
+  color: #000000;
+  font-size: 14px;
+  font-family: Arial;
+}
+
+.calendar .template-three {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0;
+  padding: 20px 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.calendar .template-three > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 8px;
+}
+
+.calendar .template-three > div > div {
+  font-size: 14px;
+  color: #000000;
+  text-align: center;
+}
+
+.calendar .template-three .heart-date {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.calendar .template-three .colorF {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Timeline hearts (CSS heart shape) */
+.timeline-heart {
+  position: relative;
+}
+.timeline-heart::before,
+.timeline-heart::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 14px;
+  background: #e88f95;
+  border-radius: 9px 9px 0 0;
+  transform: rotate(-45deg);
+  transform-origin: 0 100%;
+  left: 9px;
+  top: 0;
+  box-shadow: 0 0 0 1px rgba(139, 47, 48, 0.15) inset;
+}
+.timeline-heart::after {
+  left: 0;
+  transform: rotate(45deg);
+  transform-origin: 100% 100%;
+}
+
+/* Better link styles */
+a {
+  color: #8b6f47;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #d4af37;
+}
+
+/* Fallback decoration for blocked 02.svg (soft gradients) */
+.material-fallback-02 {
+  background-image: radial-gradient(
+      60% 60% at 30% 30%,
+      rgba(163, 64, 61, 0.22) 0%,
+      rgba(163, 64, 61, 0) 62%
+    ),
+    radial-gradient(
+      50% 50% at 80% 22%,
+      rgba(131, 67, 67, 0.12) 0%,
+      rgba(131, 67, 67, 0) 64%
+    ),
+    radial-gradient(
+      50% 50% at 20% 78%,
+      rgba(131, 67, 67, 0.12) 0%,
+      rgba(131, 67, 67, 0) 64%
+    );
+  background-size: 100% 100%, 100% 100%, 100% 100%;
+  border-radius: 8px;
+}
+
+/* Hint text under the envelope */
+.open-hint {
+  font-family: "Aquarelle";
+  font-size: 22px;
+  color: #8b2f30;
+  text-align: center;
+  letter-spacing: 1px;
+  user-select: none;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Section 11 - Background for small photos */
+/* [data-node-id="uaNarYt8ei"],
+[data-node-id="THVokgiiTm"] {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 15px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+}
+
+[data-node-id="wf0ZFQz_pJ"] {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 15px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+}
+
+[data-node-id="uaNarYt8ei"] .photo-bg-wrap,
+[data-node-id="wf0ZFQz_pJ"] .photo-bg-wrap,
+[data-node-id="THVokgiiTm"] .photo-bg-wrap {
+  border-radius: 4px;
+} */
+
+/* QR Code Avatar - Round with border */
+[data-node-id="BuirAho-zo"] .photo-bg-wrap,
+[data-node-id="6RGJcFAx2z"] .photo-bg-wrap {
+  border-radius: 50% !important;
+  border: 4px solid rgba(228, 150, 150, 0.6);
+  box-sizing: border-box;
+  padding: 8px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* QR Code Avatar wrapper - add extra styling */
+[data-node-id="BuirAho-zo"],
+[data-node-id="6RGJcFAx2z"] {
+  overflow: visible !important;
+}
+
+/* Gift Section - QR Code Cards */
+.gift-qr-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.gift-qr-card.reverse {
+  flex-direction: row-reverse;
+}
+
+.qr-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px dashed rgba(228, 150, 150, 0.5);
+  padding: 5px;
+  object-fit: cover;
+}
+
+.qr-info {
+  flex: 1;
+  text-align: center;
+}
+
+.qr-code-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  margin: 10px auto;
+}
+
+/* RSVP Form */
+.rsvp-form {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(228, 150, 150, 0.3);
+}
+
+.rsvp-form h3 {
+  color: #8b2f30;
+  font-family: "Quicksand", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.rsvp-form label {
+  display: block;
+  color: #333;
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.rsvp-form input[type="text"],
+.rsvp-form select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+  margin-bottom: 16px;
+  background: white;
+  transition: border-color 0.3s;
+}
+
+.rsvp-form input[type="text"]:focus,
+.rsvp-form select:focus {
+  outline: none;
+  border-color: #e49696;
+}
+
+.rsvp-form input[type="radio"] {
+  margin-right: 8px;
+}
+
+.radio-group {
+  margin-bottom: 16px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.radio-option label {
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.rsvp-form button {
+  width: 100%;
+  padding: 12px;
+  background: #e49696;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.rsvp-form button:hover {
+  background: #d88888;
+}
+
+.rsvp-form button:active {
+  transform: scale(0.98);
+}
+
+/* ========== WISHES/BLESSING SECTION ========== */
+
+/* Wishes Container - Fixed at bottom of page, no background */
+.wishes-container {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  background: transparent;
+  z-index: 900;
+  transition: all 0.3s ease;
+}
+
+/* Wishes Content - Hideable content */
+.wishes-content {
+  max-height: 400px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  opacity: 1;
+}
+
+.wishes-container.collapsed .wishes-content {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* Wishes Display Area */
+.wishes-display {
+  height: 200px;
+  max-height: 200px;
+  overflow: hidden; /* auto-run, hide scrollbars */
+  padding: 12px 16px;
+  background: transparent;
+}
+
+.wishes-display::-webkit-scrollbar {
+  width: 4px;
+}
+
+.wishes-display::-webkit-scrollbar-track {
+  background: rgba(228, 150, 150, 0.1);
+}
+
+.wishes-display::-webkit-scrollbar-thumb {
+  background: rgba(228, 150, 150, 0.3);
+  border-radius: 2px;
+}
+
+.wishes-display::-webkit-scrollbar-thumb:hover {
+  background: rgba(228, 150, 150, 0.5);
+}
+
+/* Wishes List - Vertical scroll */
+.wishes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  will-change: transform;
+}
+
+.wish-item {
+  background: rgba(255, 255, 255, 0.3);
+  width: fit-content;
+  max-width: 300px;
+  backdrop-filter: blur(5px);
+  border-radius: 20px;
+  padding: 10px 14px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 13px;
+  color: #666;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: slideInUp 0.4s ease;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wish-item strong {
+  color: #e49696;
+  font-weight: 600;
+}
+
+.wish-item-message {
+  color: #555;
+  line-height: 1.4;
+  word-wrap: break-word;
+  display: inline;
+}
+
+/* Wishes Footer - Send button only */
+.wishes-footer {
+  padding: 12px 16px;
+  backdrop-filter: blur(1px);
+}
+
+.wishes-send-btn {
+  width: 300px; /* Fill footer width, leave space for toggle */
+  background: rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Push text left, icon right */
+  gap: 10px;
+}
+
+.wishes-send-btn:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* Toggle Button - Always visible, positioned absolutely */
+.wishes-toggle-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 300;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 910;
+}
+
+.wishes-toggle-btn:hover {
+  background: white;
+  color: #e49696;
+  transform: scale(1.05) rotate(90deg);
+}
+
+/* When collapsed, change appearance */
+.wishes-container.collapsed .wishes-toggle-btn {
+  background: rgba(250, 186, 186, 0.95);
+  color: white;
+}
+
+.wishes-container.collapsed .wishes-toggle-btn:hover {
+  background: rgba(228, 150, 150, 1);
+  transform: scale(1.1);
+}
+
+/* Wishes Modal */
+.wishes-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+.wishes-modal.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.wishes-modal-content {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 245, 245, 0.98),
+    rgba(255, 235, 235, 0.98)
+  );
+  border-radius: 20px;
+  padding: 32px 24px;
+  max-width: 90%;
+  width: 400px;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.wishes-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wishes-modal-close:hover {
+  background: white;
+  color: #e49696;
+  transform: rotate(90deg);
+}
+
+.wishes-modal-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.wishes-modal-header svg {
+  margin-bottom: 8px;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.wishes-modal-header h2 {
+  color: #8b2f30;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: "Quicksand", sans-serif;
+  margin: 0;
+}
+
+.wishes-form-modal .wishes-form-group {
+  margin-bottom: 16px;
+}
+
+.wishes-form-modal input,
+.wishes-form-modal textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid rgba(228, 150, 150, 0.3);
+  border-radius: 12px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+  background: white;
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+
+.wishes-form-modal input:focus,
+.wishes-form-modal textarea:focus {
+  outline: none;
+  border-color: #e49696;
+  box-shadow: 0 0 0 3px rgba(228, 150, 150, 0.1);
+}
+
+.wishes-form-modal textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.wishes-form-modal .wishes-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #e49696, #d88888);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(228, 150, 150, 0.3);
+}
+
+.wishes-form-modal .wishes-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(228, 150, 150, 0.4);
+}
+
+.wishes-form-modal .wishes-submit-btn:active {
+  transform: translateY(0);
+}
+
+.wishes-form-modal .wishes-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ========== GOOGLE MAP CARD ========== */
+.map-card {
+  border-radius: 8px;
+  overflow: hidden; /* clip iframe corners */
+  border: 1px solid rgba(131, 67, 67, 0.12);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.map-card > [data-transition-key] {
+  width: 100%;
+  height: 100%; /* ensure wrapper fills the fixed-size card so iframe 100% works */
+}
+
+.map-card .map-iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 8px; /* double-ensure iOS clips */
+}

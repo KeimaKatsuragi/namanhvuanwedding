@@ -20,6 +20,12 @@ body {
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
 
+/* Ephesis font - LOCAL */
+@font-face {
+  font-family: "Ephesis-Regular";
+  src: url("../fonts/Ephesis-Regular.ttf") format("truetype");
+}
+
 /* Belinda Avenue font - LOCAL */
 @font-face {
   font-family: "Belinda Avenue";
@@ -36,6 +42,12 @@ body {
 @font-face {
   font-family: "Carlytte";
   src: url("../fonts/Carlytte.ttf") format("truetype");
+}
+
+/* fzPhotograph font - handwriting style */
+@font-face {
+  font-family: "fzPhotograph";
+  src: url("../fonts/fzPhotograph.TTF") format("truetype");
 }
 
 /* HoaTay1 font - Vietnamese calligraphy for names */

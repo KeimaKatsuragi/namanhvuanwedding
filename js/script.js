@@ -677,8 +677,8 @@ function fetchWishes() {
           displayWishes(data.wishes);
         } else {
           console.warn("No wishes array in response:", data);
-          wishesList.innerHTML =
-            '<div class="wish-item"><strong>💕 Hãy là người đầu tiên gửi lời chúc!</strong></div>';
+          // wishesList.innerHTML =
+          //   '<div class="wish-item"><strong>💕 Hãy là người đầu tiên gửi lời chúc!</strong></div>';
         }
       } catch (e) {
         console.error("JSON parse error:", e);
@@ -690,16 +690,16 @@ function fetchWishes() {
     .catch((error) => {
       console.error("Error fetching wishes:", error);
       // Show default message if fetch fails
-      wishesList.innerHTML =
-        '<div class="wish-item"><strong>💕 Hãy là người đầu tiên gửi lời chúc!</strong></div>';
+      // wishesList.innerHTML =
+      //   '<div class="wish-item"><strong>💕 Hãy là người đầu tiên gửi lời chúc!</strong></div>';
     });
 }
 
 // Display wishes in vertical list
 function displayWishes(wishes) {
   if (!wishes || wishes.length === 0) {
-    wishesList.innerHTML =
-      '<div class="wish-item"><strong>💕 Hãy là người đầu tiên gửi lời chúc!</strong></div>';
+    // wishesList.innerHTML =
+    //   '<div class="wish-item"><strong>💕 Hãy là người đầu tiên gửi lời chúc!</strong></div>';
     // Setup marquee with placeholder content
     setupWishesMarquee();
     return;

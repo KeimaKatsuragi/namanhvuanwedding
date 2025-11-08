@@ -99,7 +99,7 @@ body {
 
 /* Root Page Container */
 #root-page-container {
-  background-color: #f9f1ef;
+  background-color: #ffffff;
   background-image: none;
   background-size: cover;
   width: 100%;
@@ -314,13 +314,21 @@ body {
   font-family: "Belinda Avenue";
   font-size: 16px;
   margin: 8px 0 2px;
+}
 
-  /* Center the embedded map card inside event panels */
-  .event-info-panel .map-card {
-    margin: 12px auto 0; /* horizontally center with top spacing */
-    display: block; /* ensure margin auto works */
-    max-width: 100%;
-  }
+/* Address emphasis (subtle outline to make thin fonts read bolder) */
+.address-strong {
+  -webkit-text-stroke: 0.1px #000000;
+  text-shadow: 0 0.1px 0 #000, 0.1px 0 0 #000, 0 -0.1px 0 #000, -0.1px 0 0 #000,
+    0.1px 0.1px 0 #000, -0.1px 0.1px 0 #000, 0.1px -0.1px 0 #000,
+    -0.1px -0.1px 0 #000;
+}
+
+/* Center the embedded map card inside event panels */
+.event-info-panel .map-card {
+  margin: 12px auto 0; /* horizontally center with top spacing */
+  display: block; /* ensure margin auto works */
+  max-width: 100%;
 }
 
 /* Back Pocket (túi sau - z-index: 1) */
@@ -738,6 +746,28 @@ body {
   background-clip: border-box;
   min-width: 20px;
   min-height: 20px;
+}
+
+/* Background zoom utilities: scale image while keeping the outer box size */
+.photo-bg-wrap.zoom-110 {
+  background-size: 110% auto !important;
+  background-position: center center !important;
+}
+.photo-bg-wrap.zoom-120 {
+  background-size: 120% auto !important;
+  background-position: center center !important;
+}
+.photo-bg-wrap.zoom-130 {
+  background-size: 130% auto !important;
+  background-position: center center !important;
+}
+.photo-bg-wrap.zoom-140 {
+  background-size: 140% auto !important;
+  background-position: center center !important;
+}
+.photo-bg-wrap.zoom-160 {
+  background-size: 160% auto !important;
+  background-position: center center !important;
 }
 
 /* Photo zoom/crop helpers (keep box size, zoom background in and crop) */
@@ -1180,7 +1210,7 @@ a:hover {
 .open-hint {
   font-family: "Aquarelle";
   font-size: 22px;
-  color: #8b2f30;
+  color: #000000;
   text-align: center;
   letter-spacing: 1px;
   user-select: none;
@@ -1303,7 +1333,7 @@ a:hover {
 }
 
 .rsvp-form h3 {
-  color: #8b2f30;
+  color: #000000;
   font-family: "Quicksand", sans-serif;
   font-size: 20px;
   font-weight: 600;

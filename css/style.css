@@ -89,7 +89,7 @@ body {
   height: 100vh;
   margin: auto;
   position: relative;
-  background-color: #fff;
+  background-color: #f9f1ef;
   border: 1px solid #e0e0e0;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   border-radius: 3px;
@@ -99,7 +99,7 @@ body {
 
 /* Root Page Container */
 #root-page-container {
-  background-color: #ffffff;
+  background-color: #f9f1ef;
   background-image: none;
   background-size: cover;
   width: 100%;
@@ -272,10 +272,6 @@ body {
   text-transform: uppercase;
   margin: 6px 0 2px;
   letter-spacing: 0.3px;
-  -webkit-text-stroke: 0.1px #000000;
-  text-shadow: 0 0.1px 0 #000, 0.1px 0 0 #000, 0 -0.1px 0 #000, -0.1px 0 0 #000,
-    0.1px 0.1px 0 #000, -0.1px 0.1px 0 #000, 0.1px -0.1px 0 #000,
-    -0.1px -0.1px 0 #000;
 }
 
 .event-info-time {
@@ -294,10 +290,6 @@ body {
   font-size: 28px;
   letter-spacing: 6px; /* dot-separated spacing look */
   margin: 4px 0 8px;
-  -webkit-text-stroke: 0.1px #000000;
-  text-shadow: 0 0.1px 0 #000, 0.1px 0 0 #000, 0 -0.1px 0 #000, -0.1px 0 0 #000,
-    0.1px 0.1px 0 #000, -0.1px 0.1px 0 #000, 0.1px -0.1px 0 #000,
-    -0.1px -0.1px 0 #000;
 }
 
 .event-info-lunar {
@@ -317,12 +309,6 @@ body {
 }
 
 /* Address emphasis (subtle outline to make thin fonts read bolder) */
-.address-strong {
-  -webkit-text-stroke: 0.1px #000000;
-  text-shadow: 0 0.1px 0 #000, 0.1px 0 0 #000, 0 -0.1px 0 #000, -0.1px 0 0 #000,
-    0.1px 0.1px 0 #000, -0.1px 0.1px 0 #000, 0.1px -0.1px 0 #000,
-    -0.1px -0.1px 0 #000;
-}
 
 /* Center the embedded map card inside event panels */
 .event-info-panel .map-card {

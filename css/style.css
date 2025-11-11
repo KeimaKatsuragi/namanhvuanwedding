@@ -20,12 +20,6 @@ body {
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap");
 
-/* Ephesis font - LOCAL */
-@font-face {
-  font-family: "Ephesis-Regular";
-  src: url("../fonts/Ephesis-Regular.ttf") format("truetype");
-}
-
 /* Belinda Avenue font - LOCAL */
 @font-face {
   font-family: "Belinda Avenue";
@@ -36,12 +30,6 @@ body {
 @font-face {
   font-family: "Belinda Avenue Local";
   src: url("../fonts/BelindaAvenue.otf") format("opentype");
-}
-
-/* Carlytte font - handwriting style */
-@font-face {
-  font-family: "Carlytte";
-  src: url("../fonts/Carlytte.ttf") format("truetype");
 }
 
 /* fzPhotograph font - handwriting style */
@@ -60,12 +48,6 @@ body {
 @font-face {
   font-family: "BucThu";
   src: url("../fonts/BucThu.ttf") format("truetype");
-}
-
-/* The Artisan font - elegant serif for locations */
-@font-face {
-  font-family: "The Artisan";
-  src: url("../fonts/TheArtisan.ttf") format("truetype");
 }
 
 /* Aquarelle font - elegant serif for locations */

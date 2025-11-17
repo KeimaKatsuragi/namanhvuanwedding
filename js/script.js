@@ -1,7 +1,6 @@
 // ========== GLOBAL VARIABLES ==========
 let musicPlaying = false;
 const bgMusic = document.getElementById("bgMusic");
-const audioToggle = document.getElementById("audioToggle");
 const openButton = document.getElementById("openButton");
 const openingOverlay = document.getElementById("openingOverlay");
 const envelopeContainer = document.getElementById("envelopeContainer");
@@ -21,38 +20,8 @@ function openInvite() {
     openingOverlay.classList.add("hidden");
   }
 
-  // Try starting music (may be blocked by autoplay policies)
-  if (bgMusic) {
-    const tryPlay = () => bgMusic.play();
-    tryPlay()
-      .then(() => {
-        // If autoplay started muted (common), wait for a gesture to unmute
-        if (bgMusic.muted || bgMusic.volume === 0) {
-          attachAudioUnlock();
-          musicPlaying = false;
-          audioToggle?.classList.remove("playing");
-          audioToggle?.classList.add("paused");
-        } else {
-          musicPlaying = true;
-          audioToggle?.classList.add("playing");
-          audioToggle?.classList.remove("paused");
-        }
-      })
-      .catch((err) => {
-        // Continue muted and unlock on first gesture
-        console.log("Autoplay prevented:", err);
-        try {
-          bgMusic.muted = true;
-          bgMusic.volume = 0;
-          return tryPlay().finally(() => {
-            attachAudioUnlock();
-            musicPlaying = false;
-            audioToggle?.classList.remove("playing");
-            audioToggle?.classList.add("paused");
-          });
-        } catch (e) {}
-      });
-  }
+  // Note: do not auto-play music here. Music will start when the user
+  // opens the envelope (explicit gesture).
 
   // Kick off any elements already in view
   setTimeout(() => {
@@ -65,42 +34,41 @@ if (openButton) {
   openButton.addEventListener("click", openInvite);
 }
 
-// Auto-open on load (no button press)
-document.addEventListener("DOMContentLoaded", () => {
-  openInvite();
-});
+// We intentionally do not auto-open the invite on load. The envelope
+// click will trigger opening and music playback.
 
-// ========== MUSIC CONTROL ==========
-audioToggle.addEventListener("click", function () {
-  if (musicPlaying) {
-    bgMusic.pause();
-    musicPlaying = false;
-    audioToggle.classList.remove("playing");
-    audioToggle.classList.add("paused");
-  } else {
+// Music will be started once when the envelope is opened (user gesture).
+let musicStarted = false;
+function startMusicOnOpen() {
+  if (musicStarted || !bgMusic) return;
+  musicStarted = true;
+  try {
     bgMusic.muted = false;
     if (bgMusic.volume < 0.7) bgMusic.volume = 0.7;
-    bgMusic.play();
+    bgMusic.play().catch(() => {});
     musicPlaying = true;
-    audioToggle.classList.add("playing");
-    audioToggle.classList.remove("paused");
+  } catch (e) {
+    // ignore
   }
-});
+}
 
 // ========== ENVELOPE OPENING ANIMATION ==========
 let envelopeOpened = false;
-
-envelopeComponent.addEventListener("click", function () {
-  if (!envelopeOpened) {
-    envelopeContainer.classList.remove("close");
-    envelopeContainer.classList.add("open");
-    envelopeOpened = true;
-  } else {
-    envelopeContainer.classList.remove("open");
-    envelopeContainer.classList.add("close");
-    envelopeOpened = false;
-  }
-});
+if (envelopeComponent) {
+  envelopeComponent.addEventListener("click", function () {
+    if (!envelopeOpened) {
+      envelopeContainer.classList.remove("close");
+      envelopeContainer.classList.add("open");
+      envelopeOpened = true;
+      // start music on first open
+      startMusicOnOpen();
+    } else {
+      envelopeContainer.classList.remove("open");
+      envelopeContainer.classList.add("close");
+      envelopeOpened = false;
+    }
+  });
+}
 
 // ========== COUNTDOWN TIMER ==========
 function updateCountdown() {
@@ -369,8 +337,6 @@ function attachAudioUnlock() {
       bgMusic.play();
     } catch (e) {}
     musicPlaying = true;
-    audioToggle?.classList.add("playing");
-    audioToggle?.classList.remove("paused");
     types.forEach((t) => window.removeEventListener(t, handler, true));
   };
   types.forEach((t) =>
